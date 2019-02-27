@@ -19,6 +19,10 @@ class MBTA_Forbidden(MBTA_Exception):
     def __init__(self, url):
         super().__init__(f'GET {url} returned 403 (Forbidden)')
 
+class MBTA_BadRequest(MBTA_Exception):
+    """ Raised if MBTA interpreted given request was invalid in syntax or in parameters. """
+    pass
+
 
 class MBTA_QuotaExceeded(MBTA_Exception):
     """ Raised when user has made too many requests. """
