@@ -1,9 +1,19 @@
-class Route:
+from mbta.query_engine.query import SingularQueryable
+
+
+class Route(SingularQueryable):
     """This class represents an MBTA Route."""
 
-    def __init__(self, id, attributes):
+    route = 'route'
+    list_routes = 'routes'
+
+    def __init__(self, id, attributes, relationships):
+        super().__init__(id)
         self._attributes = attributes
-        self.id = id
+        self._relationships = relationships
+
+    def __repr__(self):
+        return f'<Route {self.short_name}: {self.long_name} [{self.description}]>'
 
     @property
     def color(self):
@@ -25,7 +35,7 @@ class Route:
         )
 
     @property
-    def direction(self):
+    def directions(self):
         return (
             self._attributes['direction_names'][0],
             self._attributes['direction_names'][1]
@@ -46,3 +56,8 @@ class Route:
     @property
     def route_type(self):
         return self._attributes['type']
+
+    @property
+    def line(self):
+        """Returns the id of the line related to the route"""
+        return self._relationships['line']['data']['id']

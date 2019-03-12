@@ -8,6 +8,7 @@ import unittest
 from click.testing import CliRunner
 
 from mbta import mbta
+from mbta.mbta import MBTA
 from mbta import cli
 
 
@@ -16,6 +17,7 @@ class TestMbta(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures, if any."""
+        self.mbta = MBTA('secret')
 
     def tearDown(self):
         """Tear down test fixtures, if any."""

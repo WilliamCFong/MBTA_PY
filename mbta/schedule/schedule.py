@@ -1,15 +1,14 @@
 from dateutil.parser import parse
+from mbta.query_engine.query import SingularQueryable
 
-class Schedule:
+class Schedule(SingularQueryable):
 
     """ This class encompasses a single Schedule stop."""
+    route = 'schedule'
 
     def __init__(self, id, attributes, relationships=None):
-        self.id = id
-        # Preprocess departure and arrival times to datetime objects
+        super().__init__(id)
         self._attributes = attributes
-        #self._attributes['arrival_time'] = parser.parse(self._attributes['arrival_time'])
-        #self._attributes['departure_time'] = parser.parse(self._attributes['departure_time'])
         self._relationships = relationships
 
     @property

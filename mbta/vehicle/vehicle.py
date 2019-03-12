@@ -1,13 +1,18 @@
 from dateutil.parser import parse
+from mbta.query_engine.query import SingularQueryable
 
-class Vehicle:
+
+class Vehicle(SingularQueryable):
 
     """This class encompasses the data sent and received from MBTA's vehicle
     API subdomain."""
 
+    id_route = 'vehicle'
+    list_route = 'vehicles'
+
     def __init__(self, id, attributes, relationships):
         """Initializes a Vehicle"""
-        self.id = id
+        super().__init__(id)
         self._attributes = attributes
         self._relationships = relationships
 

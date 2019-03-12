@@ -1,6 +1,8 @@
 import requests
 from mbta.exceptions import MBTA_NotFound, MBTA_Forbidden, MBTA_QuotaExceeded, MBTA_Exception
 
+RESPONSE_KEYS = ['id', 'attributes', 'relationships']
+
 class Engine(object):
 
     """A class for encapsulating API requests to MBTA. Requires credentials."""
@@ -36,7 +38,8 @@ class Engine(object):
         response = r.json()
 
         if r.status_code == 200:
-            return response
+            x = { key: response['data'][key] for key in RESPONSE_KEYS if key in response['data'] }
+            return x
         elif r.status_code == 403:
             raise MBTA_Forbidden(url)
         elif r.status_code == 404:

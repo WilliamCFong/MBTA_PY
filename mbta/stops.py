@@ -1,10 +1,16 @@
-class Stop:
+from mbta.query_engine.query import SingularQueryable
+
+class Stop(SingularQueryable):
 
     """Encompasses a stop in an MBTA Line."""
 
-    def __init__(self, id, attributes):
-        self.id = id
+    id_route = 'stop'
+    list_route = 'stops'
+
+    def __init__(self, id, attributes, relationships):
+        super().__init__(id)
         self._attributes = attributes
+        self._relationships = relationships
         self._schedule = None
 
     @property
@@ -42,3 +48,14 @@ class Stop:
     @property
     def accessibility(self):
         return self._attributes['wheelchair_boarding']
+
+    # Begin Relationship properties
+    @property
+    def child_stops(self):
+        """Returns a list of child stop ids."""
+        return [x['id'] for x in self._relationships['child_stops']['data']]
+
+    @property
+    def parent_station(self):
+        """Returns the parent station to this stop."""
+        return self._relationships['parent_station']['data']
