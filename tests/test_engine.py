@@ -7,6 +7,7 @@ import unittest
 import json
 from unittest.mock import patch
 from mbta.query_engine.engine import Engine
+from mbta.query_engine.engine import construct_filters
 from mbta.exceptions import *
 
 class MockRequest:
@@ -79,6 +80,12 @@ class TestEngine(unittest.TestCase):
     def test_set_user_agent(self):
         self.engine.user_agent = 'NEW UA'
         self.assertEqual(self.engine.user_agent, 'NEW UA')
+
+    def test_filter_construction(self):
+        raw_parameters = { 'stop': 'New Hampshire @ Portland' }
+        filtered = construct_filters(**raw_parameters)
+        self.assertTrue(len(filtered.keys()), 1)
+        self.assertEqual(filtered, {'filter[stop]': 'New Hampshire @ Portland' })
 
     @patch('requests.get', side_effect=lambda *a, **kw: MockRequest(DATA, 200))
     def test_clean_request(self, mock):

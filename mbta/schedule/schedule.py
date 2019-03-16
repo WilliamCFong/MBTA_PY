@@ -1,15 +1,19 @@
 from dateutil.parser import parse
-from mbta.query_engine.query import SingularQueryable
+from mbta.query_engine.query import Queryable
 
-class Schedule(SingularQueryable):
+class Schedule(Queryable):
 
     """ This class encompasses a single Schedule stop."""
-    route = 'schedule'
+    list_route = 'schedules'
 
     def __init__(self, id, attributes, relationships=None):
-        super().__init__(id)
+        self._id = id  # Schedules have an ID but do not have a /schedule/{id} route
         self._attributes = attributes
         self._relationships = relationships
+
+    @property
+    def id(self):
+        return self._id
 
     @property
     def arrival_time(self):
