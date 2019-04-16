@@ -13,6 +13,10 @@ def main(args=None):
     click.echo("See click documentation at http://click.pocoo.org/")
     return 0
 
+@click.group()
+def predict():
+    pass
+
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover
